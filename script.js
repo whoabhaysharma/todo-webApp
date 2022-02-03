@@ -21,26 +21,24 @@ $("form").submit(function (e) {
 });
 
 function saveAndAddDiv(index) {
-  
-    let title = $("#task").val();
-    let priority = $("#priority").val();
-    let isDone = false;
-    let taskId = getRandomId();
-    if (title !== "") {
-      todos.push({
-        title: title,
-        priority: priority,
-        status: isDone,
-        id: taskId,
-      });
-      insertToLocal(todos);
-      addTodoDiv(title, priority, taskId);
-      showSuccessAlert();
-    } else {
-      showDangerAlert();
-    }
+  let title = $("#task").val();
+  let priority = $("#priority").val();
+  let isDone = false;
+  let taskId = getRandomId();
+  if (title !== "") {
+    todos.push({
+      title: title,
+      priority: priority,
+      status: isDone,
+      id: taskId,
+    });
+    insertToLocal(todos);
+    addTodoDiv(title, priority, taskId);
+    showSuccessAlert();
+  } else {
+    showDangerAlert();
   }
-
+}
 
 function insertToLocal(arr) {
   let stringArr = JSON.stringify(arr);
@@ -75,7 +73,7 @@ $(document).on("click", "#statusBtn", function () {
     console.log(todos[index].status);
     insertToLocal(todos);
     $(this).parent().css("text-decoration", "line-through");
-    $(this).parent().css("opacity","0.4")
+    $(this).parent().css("opacity", "0.4");
   } else {
     todos[index].status = false;
     console.log(todos[index].status);
@@ -94,11 +92,23 @@ function render() {
       let priority = todos[i].priority;
       let status = todos[i].status;
       if (status === false) {
-        let div = `<div id="${taskid}" class="todo"> <h3>${title}</h3><p>${priority}</p><p id="statusBtn">Done</p><p id="delBtn">delete</p></div>`;
-        $(".todo-list").append(div);
+        let div = `<tr>
+        <th scope="row">${title}</th>
+        <td>${priority}</td>
+        <td>${status}</td>
+        <td>Delete</td>
+      </tr>`;
+
+        $("tbody").append(div);
       } else {
-        let div = `<div style ="text-decoration:line-through" id="${taskid}" class="todo"> <h3>${title}</h3><p>${priority}</p><p id="statusBtn">Done</p><p id="delBtn">delete</p></div>`;
-        $(".todo-list").append(div);
+        let div = `<tr>
+        <th scope="row">${title}</th>
+        <td>${priority}</td>
+        <td>${status}</td>
+        <td>Delete</td>
+      </tr>`;
+
+        $("tbody").append(div);
       }
     }
   }
@@ -119,8 +129,14 @@ function showSuccessAlert() {
 }
 
 function addTodoDiv(title, priority, taskId) {
-  let div = `<div id="${taskId}" class="todo"> <h3>${title}</h3><p>${priority}</p><p id="statusBtn">Done</p><p id="delBtn">delete</p></div>`;
-  $(".todo-list").append(div);
+  let div = `<tr>
+        <th scope="row">${title}</th>
+        <td>${priority}</td>
+        <td>${status}</td>
+        <td>Delete</td>
+      </tr>`;
+
+        $("tbody").append(div);
 }
 
 function remove(n) {
@@ -150,5 +166,4 @@ $(document).on("dblclick", ".todo", function () {
   let index = $(this).index();
   $("#task").val(todos[index].title);
   $("#priority").val(todos[index].priority);
-  
 });
